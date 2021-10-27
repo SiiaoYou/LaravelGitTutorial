@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\registerController;
 
+use Illuminate\Support\Facades\Route;
+use App\Models\Newsletter;
+use App\Http\Controllers\NewsletterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,28 +16,28 @@ use App\Http\Controllers\registerController;
 |
 */
 
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/', function () {
-    return view('test');
+Route::get('/contactus', function () {
+    return view('contactus');
 });
 
-Route::get('insert',[registerController::class,'insertform']);
-Route::post('/create',[registerController::class,'insert']);
-
-//Route::get('view-records',[registerController::class,'index']);
-
-
-//show record
-Route::get('/viewRegister', function () {
-
-    $viewdata = DB::table('internform')->get();
-
-    return view('viewRegister', ['viewdata' => $viewdata]);
+Route::post('/contactus', function () {
+    $message=new Newsletter();
+    $message->name=request('name');
+    $message->email=request('email');
+    $message->message=request('message');
+    $message->save();
+    return redirect('contactus');
 });
 
 
+
+// Route::get('/home', function () {
+//     return view('home');
+// });
+Route::view('/home', 'home');
+Route::view('/message', 'message');
+Route::get('/message','App\Http\Controllers\NewsletterController@index');

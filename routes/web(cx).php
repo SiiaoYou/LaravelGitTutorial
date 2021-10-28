@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\registerController;
-
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,26 +14,8 @@ use App\Http\Controllers\registerController;
 |
 */
 
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/', function () {
-    return view('test');
-});
-
-Route::get('insert',[registerController::class,'insertform']);
-Route::post('/create',[registerController::class,'insert']);
-
-//Route::get('view-records',[registerController::class,'index']);
-
-
-//show record
-Route::get('/viewRegister', function () {
-
-    $viewdata = DB::table('internform')->get();
-
-    return view('viewRegister', ['viewdata' => $viewdata]);
-});
+Route::resource('student', 'StudentController');
